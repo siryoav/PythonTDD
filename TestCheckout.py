@@ -18,3 +18,6 @@ def test_GetCorrectTotalWithMultipleItems(checkout):
     checkout.addItem("a")
     checkout.addItem("b")
     assert checkout.calculateTotal() == 3
+
+def test_CanAddDiscountRule(checkout):
+    checkout.addDiscount("a",3, 2)
