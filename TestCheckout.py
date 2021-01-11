@@ -5,7 +5,7 @@ from Checkout import Checkout
 @pytest.fixture()
 def checkout():
     checkout = Checkout()
-    return checkouts
+    return checkout
 
 def test_CanCalculateTotal(checkout):
     checkout.addItemPrice("a", 1)
