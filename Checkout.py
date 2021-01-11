@@ -24,15 +24,17 @@ class Checkout(object):
     def calculateTotal(self):
         total = 0
         for item, cnt in self.items.items():
-            if item in self.dicounts:
-                discount = self.dicounts[item]
-                if cnt >= discount.numItems:
-                    numDiscounts = cnt/discount.numItems
-                    total += numDiscounts * discount.price
-                    reminder = cnt % discount.numItems
-                    total += reminder * self.prices[item]
-                else:
-                    total += self.prices[item] * cnt
-            else:
-                total += self.prices[item] * cnt
+            discount_total, cnt = self.calculateDiscount(item,cnt)
+            total += self.prices[item] * cnt + discount_total
         return total
+
+    def calculateDiscount(self, item, cnt):
+        if item not in self.dicounts:
+            return 0, cnt
+        discount = self.dicounts[item]
+        if cnt < discount.numItems:
+            return 0, cnt
+
+        numDiscounts = cnt / discount.numItems
+        reminder = cnt % discount.numItems
+        return numDiscounts * discount.price, reminder
